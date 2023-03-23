@@ -38,7 +38,7 @@ export const TestControls = ({ id, test, state, dispatch }) => {
       <p>
         ${test.ops !== -2 &&
         (test.ops === -1
-          ? 'Failed'
+          ? 'Failed (error in console)'
           : test.ops === 0
           ? `Testing ${progressPercent}%`
           : `${Number(test.ops).toLocaleString('en')} ops/s`)}
@@ -106,7 +106,7 @@ export default ({ state, dispatch }) => {
                 padding=${20}
                 style=${style.editor}
               />
-        <h3 className=${style.durationEdit}>Duration Seconds</h3>
+        <h3 className=${style.durationEdit}>Run Duration Milliseconds</h3>
         <${Editor}
                 value=${duration.toString()}
                 disabled=${started}

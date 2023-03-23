@@ -45,8 +45,8 @@ onmessage = async (e) => {
     try {
       result = await eval(`async () => {
         let ops = 0;
-        let end = Date.now() + ${duration};
-        while (Date.now() < end) {
+        let end = performance.now() + duration;
+        while (performance.now() < end) {
           ${test.code};
           ops++;
         }

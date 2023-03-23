@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "JavaScript performance benchmarks you can share via URL",
   "scripts": {
-    "dev": "http-server ."
+    "dev": "http-server . -c-1"
   },
   "repository": {
     "type": "git",

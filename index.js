@@ -22,8 +22,8 @@ const defaults = {
   dialog: true,
   aside: 'results',
   suites: extractValidSuites(localStorage),
-  runs: 500,
-  duration: 5,
+  runs: 5,
+  duration: 100,
   progress: 0,
   id: uid(),
   searchTerm: '',
@@ -53,7 +53,7 @@ const reducer = (state, update) => ({
 
 const app = () => {
   const [state, dispatch] = useReducer(reducer, init)
-  const { before, started, tests, runs, title, id, suites, aside } = state
+  const { before, started, tests, runs, duration, title, id, suites, aside } = state
   window.appState = state;
 
   useEffect(() => {
@@ -62,7 +62,8 @@ const app = () => {
         ;(async () => {
           const checkScript = await fetchWorkerScript(before, 'check')
           const runScript = await fetchWorkerScript(before, 'run')
-          const duration = await Promise.all(
+          console.group('Test checks');
+          const checkResults = await Promise.all(
             tests.map(
               (test) =>
                 new Promise((resolve) => {
@@ -75,6 +76,9 @@ const app = () => {
                 })
             )
           )
+          console.groupEnd();
+
+          const taskDurations = new Map(checkResults);
           const bench = (test) =>
             new Promise((resolve) => {
               const worker = new Worker(runScript, { type: 'module' })
@@ -82,14 +86,15 @@ const app = () => {
                 resolve({ ...test, ops: e.data })
                 worker.terminate()
               }
-              worker.postMessage([test, Math.max(...duration)])
+              worker.postMessage([test, duration]);
             })
           const tasks = () => () => {
             dispatch(updateProgress)
-            return Promise.all(tests.map(bench))
+            return Promise.all(tests.filter(x => taskDurations.get(x) !== -1).map(bench))
           }
-          pSeries(Array.from({ length: runs }, tasks)).then((results) =>
-            dispatch({ tests: average(results.flat()), started: false })
+          pSeries(Array.from({ length: runs }, tasks)).then((results) => {
+            dispatch({ tests: average(results.flat()), started: false });
+          }
           )
         })()
       }, 300)
