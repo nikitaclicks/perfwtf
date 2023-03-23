@@ -1,7 +1,7 @@
 import { html, css, getColorForPercent } from '../utils.js'
 
-const Bar = tests => (test, i) => {
-  const max = Math.max(...tests.map(x => x.ops))
+const Bar = (tests) => (test, i) => {
+  const max = Math.max(...tests.map((x) => x.ops))
   const percent = test.ops ? (test.ops / max) * 100 : 0
   return html`
     <div className=${style.result}>
@@ -23,9 +23,7 @@ const Bar = tests => (test, i) => {
         ${test.ops === -1 || test.ops === -2
           ? `${0}%`
           : test.ops === 0
-          ? html`
-              <img className=${style.spinner} src="/spinner.gif" />
-            `
+          ? html`<img className=${style.spinner} src="/spinner.gif" />`
           : `${percent << 0}%`}
       </div>
     </div>
@@ -37,19 +35,86 @@ export default ({ state, dispatch }) => {
   return html`
     <aside className=${style.aside}>
       <div className=${style.graph}>
-        ${tests.filter(x => x.ops !== -2).map(Bar(tests))}
+        ${tests.filter((x) => x.ops !== -2).map(Bar(tests))}
       </div>
       <input
         disabled=${started}
         className=${style.title}
-        onInput=${e => dispatch({ title: e.target.value })}
+        onInput=${(e) => dispatch({ title: e.target.value })}
         value=${title}
       />
+      
+      <div className=${style.source}>
+        <div
+          className=${style.warning}
+        >
+          Microbenchmarking is ${' '}
+          <a
+            target="_blank"
+            className=${style.caveatLink}
+            href="https://mrale.ph/blog/2012/12/15/microbenchmarks-fairy-tale.html"
+          >
+            riddled with caveats 
+          </a>. <br />
+          Take the results with a grain of salt.
+        </div>
+        <div className=${style.links}>
+          <a
+            className=${style.link}
+            target="_blank"
+            href="https://github.com/nikitaclicks/perfwtf"
+            >Source</a
+          >
+          •
+          <a
+            className=${style.link}
+            target="_blank"
+            href="https://github.com/lukejacksonn/perflink"
+            >Credit: Luke Jackson</a
+          >
+        </div>
+      </div>
     </aside>
   `
 }
 
 const style = {
+  warning: css`
+    margin-top: 50px;
+    color: #999;
+    text-align: center;
+    font-size: 14px;
+    line-height: 1.2rem;
+  `,
+  caveatLink: css`
+    color: #ccc !important;
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+    }
+  `,
+  link: css`
+    margin: 5px;
+    display: inline-block;
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+    }
+  `,
+  links: css`
+    margin-top: 10px;
+    font-size: 14px;
+    & a {
+      color: #999;
+    }
+  `,
+  source: css`
+    margin-top: 30px;
+    text-align: center;
+    color: #999;
+    margin-bottom: -30px;
+    font-size: 16px;
+  `,
   aside: css`
     grid-area: graph;
 
@@ -57,7 +122,7 @@ const style = {
     flex-direction: column;
     justify-content: center;
 
-    padding: 3rem 3rem 4rem;
+    padding: 3rem;
     overflow-x: auto;
     max-width: 100vw;
 
@@ -106,7 +171,7 @@ const style = {
     margin-top: 1rem;
     height: 1rem;
     text-align: center;
-    font-weight: 100;
+    font-weight: 300;
     color: rgba(255, 255, 255, 0.5);
   `,
   spinner: css`

@@ -1,21 +1,21 @@
 onmessage = async e => {
-  const test = e.data[0]
-  const duration = e.data[1]
-  let result
+  const test_reserved = e.data[0]
+  const duration_reserved = e.data[1]
+  let result_reserved
   ;(async () => {
     try {
-      result = await eval(`async () => {
-        let ops = 0;
-        let end = Date.now() + ${duration};
-        while (Date.now() < end) {
-          ${test.code};
-          ops++;
+      result_reserved = await eval(`async () => {
+        let ops_reserved = 0;
+        let end_reserved = Date.now() + ${duration_reserved};
+        while (Date.now() < end_reserved) {
+          ${test_reserved.code};
+          ops_reserved++;
         }
-        return ops;
+        return ops_reserved;
       }`)()
     } catch (e) {
-      result = -1
+      result_reserved = -1
     }
-    postMessage(result === -1 ? result : (result * (1000 / duration)) << 0)
+    postMessage(result_reserved === -1 ? result_reserved : (result_reserved * (1000 / duration_reserved)) << 0)
   })()
 }

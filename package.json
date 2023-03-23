@@ -1,0 +1,21 @@
+{
+  "name": "perfwtf",
+  "version": "1.0.0",
+  "description": "JavaScript performance benchmarks you can share via URL",
+  "scripts": {
+    "dev": "http-server ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+github.com:nikitaclicks/perfwtf.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nikitaclicks/perfwtf/issues"
+  },
+  "homepage": "https://github.com/nikitaclicks/perfwtf#readme",
+  "devDependencies": {
+    "http-server": "^14.1.0"
+  }
+}

@@ -22,8 +22,8 @@ const defaults = {
   dialog: true,
   aside: 'results',
   suites: extractValidSuites(localStorage),
-  runs: 100,
-  duration: 1,
+  runs: 500,
+  duration: 5,
   progress: 0,
   id: uid(),
   searchTerm: '',
@@ -37,11 +37,13 @@ const defaults = {
   ],
 }
 
-const init = location.hash
+const q = new URL(location.href).searchParams.get('q')
+
+const init = q
   ? {
       ...defaults,
-      ...decodeState(location.hash.slice(1)),
-    }
+    ...decodeState(q),
+  }
   : defaults
 
 const reducer = (state, update) => ({
@@ -94,8 +96,17 @@ const app = () => {
   }, [started, before, tests])
 
   useEffect(() => {
-    const x = JSON.stringify({ id, title, before, tests, updated: new Date() })
-    history.replaceState(null, null, `#${encodeURIComponent(btoa(x))}`)
+    const x = JSON.stringify({
+      id,
+      title,
+      before,
+      tests: tests.map((item) => ({
+        ...item,
+        runs: [],
+      })),
+      updated: new Date(),
+    })
+    history.replaceState(null, null, `?q=${encodeURIComponent(btoa(x))}`)
     if (Object.fromEntries(suites)[id]) {
       localStorage.setItem(id, x)
       dispatch(latestLocalStorage)
