@@ -66,7 +66,7 @@ export default ({ state, dispatch }) => {
   return html`
     <article className="tests">
       <div className=${style.testToolbar}>
-        <h3><i>JavaScript Performance Benchmark</i></h3>
+        <h3><a href='/'><i>JavaScript Performance Benchmark</i></a></h3>
         <b className=${style.cmds}>
           ${navigator.platform.match('Mac') ? '⌘ + ⏎' : 'ctrl + ⏎'}
         </b>
@@ -348,6 +348,11 @@ const style = {
     align-items: center;
     justify-content: space-between;
     padding: 0;
+    
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
   `,
   durationEdit: css`
     margin-left: 20px;
