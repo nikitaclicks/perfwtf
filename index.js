@@ -112,6 +112,8 @@ const app = () => {
       id,
       title,
       before,
+      runs,
+      duration,
       tests: tests.map((item) => ({
         ...item,
         runs: [],
