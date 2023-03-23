@@ -30,10 +30,10 @@ const defaults = {
   title: 'Finding numbers in an array of 1000',
   before: `const data = [...Array(1000).keys()]`,
   tests: [
-    { name: 'Find item 100', code: 'data.find(x => x == 100)', ops: 203360 },
-    { name: 'Find item 200', code: 'data.find(x => x == 200)', ops: 99560 },
-    { name: 'Find item 400', code: 'data.find(x => x == 400)', ops: 55350 },
-    { name: 'Find item 800', code: 'data.find(x => x == 800)', ops: 27660 },
+    { name: 'Find item 100', code: 'data.find(x => x == 100)', ops: 3479502 },
+    { name: 'Find item 200', code: 'data.find(x => x == 200)', ops: 2679182 },
+    { name: 'Find item 400', code: 'data.find(x => x == 400)', ops: 1795812 },
+    { name: 'Find item 800', code: 'data.find(x => x == 800)', ops: 1019190 },
   ],
 }
 
