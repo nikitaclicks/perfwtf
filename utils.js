@@ -179,7 +179,7 @@ export const getColorForPercent = (value) =>
 
 export const copyHashURL = (state) => {
   const x = JSON.stringify(state)
-  const link = `${location.origin}?q=${LZUTF8.compress(x, { outputEncoding: 'Base64' })}`
+  const link = `${location.origin}?test=${encodeURIComponent(LZUTF8.compress(x, { outputEncoding: 'Base64' }))}`
   var input = document.createElement('input')
   input.setAttribute('value', link)
   document.body.appendChild(input)
@@ -190,7 +190,7 @@ export const copyHashURL = (state) => {
 
 export const decodeState = (encodedState) => {
   try {
-    return JSON.parse(LZUTF8.decompress(encodedState, { inputEncoding: 'Base64' }))
+    return JSON.parse(LZUTF8.decompress(decodeURIComponent(encodedState), { inputEncoding: 'Base64' }))
   } catch (e) {
     console.log(e)
   }

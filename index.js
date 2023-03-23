@@ -37,12 +37,12 @@ const defaults = {
   ],
 }
 
-const q = new URL(location.href).searchParams.get('q')
+const testParam = new URL(location.href).searchParams.get('test')
 
-const init = q
+const init = testParam
   ? {
       ...defaults,
-    ...decodeState(q),
+    ...decodeState(testParam),
   }
   : defaults
 
@@ -120,7 +120,7 @@ const app = () => {
       })),
       updated: new Date(),
     })
-    history.replaceState(null, null, `?q=${LZUTF8.compress(x, { outputEncoding: 'Base64' })}`)
+    history.replaceState(null, null, `?test=${encodeURIComponent(LZUTF8.compress(x, { outputEncoding: 'Base64' }))}`)
     if (Object.fromEntries(suites)[id]) {
       localStorage.setItem(id, x)
       dispatch(latestLocalStorage)
