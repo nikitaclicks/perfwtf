@@ -120,7 +120,7 @@ const app = () => {
       })),
       updated: new Date(),
     })
-    history.replaceState(null, null, `?q=${encodeURIComponent(btoa(x))}`)
+    history.replaceState(null, null, `?q=${LZUTF8.compress(x, { outputEncoding: 'Base64' })}`)
     if (Object.fromEntries(suites)[id]) {
       localStorage.setItem(id, x)
       dispatch(latestLocalStorage)
