@@ -54,6 +54,7 @@ const reducer = (state, update) => ({
 const app = () => {
   const [state, dispatch] = useReducer(reducer, init)
   const { before, started, tests, runs, title, id, suites, aside } = state
+  window.appState = state;
 
   useEffect(() => {
     if (started) {

@@ -62,11 +62,11 @@ export const TestControls = ({ id, test, state, dispatch }) => {
 }
 
 export default ({ state, dispatch }) => {
-  const { suites, before, tests, id, title, started, dialog } = state
+  const { suites, before, tests, id, title, started, dialog, runs, duration } = state
   return html`
     <article className="tests">
       <div className=${style.testToolbar}>
-        <h3>Globals</h3>
+        <h3><i>JavaScript Performance Benchmark</i></h3>
         <b className=${style.cmds}>
           ${navigator.platform.match('Mac') ? '⌘ + ⏎' : 'ctrl + ⏎'}
         </b>
@@ -86,7 +86,7 @@ export default ({ state, dispatch }) => {
             const exists = Object.fromEntries(suites)[id]
             const t = exists ? uid() : title || uid()
             const key = exists ? uid() : id
-            const data = { title: t, before, tests, updated: new Date() }
+            const data = { title: t, before, runs, duration, tests, updated: new Date() }
             localStorage.setItem(key, JSON.stringify(data))
             dispatch({ id: key, title, ...latestLocalStorage() })
           }}
@@ -96,6 +96,27 @@ export default ({ state, dispatch }) => {
             : html` <${SaveIcon} /> `}
         </button>
       </div>
+      <div className=${style.testToolbar}>
+        <h3>Total Runs</h3>
+        <${Editor}
+                value=${runs.toString()}
+                disabled=${started}
+                onValueChange=${(runs) => { Number(runs) > 0 ? dispatch({ runs: Number(runs) }) : 1 }}
+                highlight=${highlightCode}
+                padding=${20}
+                style=${style.editor}
+              />
+        <h3 className=${style.durationEdit}>Duration Seconds</h3>
+        <${Editor}
+                value=${duration.toString()}
+                disabled=${started}
+                onValueChange=${(duration) => { Number(duration) > 0 ? dispatch({ duration: Number(duration) }) : 1 }}
+                highlight=${highlightCode}
+                padding=${20}
+                style=${style.editor}
+              />
+      </div>
+      <h3>Globals</h3>
       <${Editor}
         value=${before}
         disabled=${started}
@@ -328,4 +349,8 @@ const style = {
     justify-content: space-between;
     padding: 0;
   `,
+  durationEdit: css`
+    margin-left: 20px;
+    margin-right: 20px;
+  `
 }

@@ -9,7 +9,7 @@ import {
 
 import { RemoveIcon, SearchIcon, LinkIcon, ArchiveIcon } from './icons.js'
 
-const suite = (dispatch) => ([id, { title, before, tests, updated }]) =>
+const suite = (dispatch) => ([id, { title, before, tests, updated, runs, duration }]) =>
   html`
     <li className=${style.item}>
       <div
@@ -28,6 +28,8 @@ const suite = (dispatch) => ([id, { title, before, tests, updated }]) =>
             title,
             before,
             tests,
+            runs,
+            duration,
             updated: new Date(),
           })}
       >
