@@ -9,7 +9,7 @@ import {
   latestLocalStorage,
   updateProgress,
   extractValidSuites,
-  decodeState,
+  decodeState, updateDuration, updateRuns,
 } from './utils.js'
 
 import Tests from './components/tests.js'
@@ -53,11 +53,17 @@ const reducer = (state, update) => ({
 
 const app = () => {
   const [state, dispatch] = useReducer(reducer, init)
-  const { before, started, tests, runs, duration, title, id, suites, aside } = state
+  let { before, started, tests, runs, duration, title, id, suites, aside } = state
   window.appState = state;
 
   useEffect(() => {
     if (started) {
+      if (Number(duration) <= 0) {
+        dispatch(updateDuration(duration = defaults.duration));
+      }
+      if (Number(runs) <= 0) {
+        dispatch(updateRuns(runs = defaults.runs));
+      }
       setTimeout(() => {
         ;(async () => {
           const checkScript = await fetchWorkerScript(before, 'check')

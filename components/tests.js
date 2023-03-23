@@ -9,7 +9,7 @@ import {
   addTestCase,
   copyTestCase,
   updateTestCaseCode,
-  highlightCode,
+  highlightCode, updateSetupCode, updateRuns, updateDuration,
 } from '../utils.js'
 
 import {
@@ -101,7 +101,7 @@ export default ({ state, dispatch }) => {
         <${Editor}
                 value=${runs.toString()}
                 disabled=${started}
-                onValueChange=${(runs) => { Number(runs) > 0 ? dispatch({ runs: Number(runs) }) : 1 }}
+                onValueChange=${(runs) => { dispatch(updateRuns(runs)) }}
                 highlight=${highlightCode}
                 padding=${20}
                 style=${style.editor}
@@ -110,17 +110,17 @@ export default ({ state, dispatch }) => {
         <${Editor}
                 value=${duration.toString()}
                 disabled=${started}
-                onValueChange=${(duration) => { Number(duration) > 0 ? dispatch({ duration: Number(duration) }) : 1 }}
+                onValueChange=${(duration) => { dispatch(updateDuration(duration)) }}
                 highlight=${highlightCode}
                 padding=${20}
                 style=${style.editor}
               />
       </div>
-      <h3>Globals</h3>
+      <h3>Setup</h3>
       <${Editor}
         value=${before}
         disabled=${started}
-        onValueChange=${(before) => dispatch({ before })}
+        onValueChange=${(before) => dispatch(updateSetupCode(before))}
         highlight=${highlightCode}
         padding=${20}
         style=${style.editor}

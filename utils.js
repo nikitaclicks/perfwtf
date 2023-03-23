@@ -143,6 +143,18 @@ export const updateTestCaseCode = (id, code) => (state) => ({
   tests: state.tests.map((t, i) => (i === id ? { ...t, code } : t)),
 })
 
+export const updateDuration = (duration) => (state) => ({
+  duration: Number(duration) > 0 ? Number(duration) : '',
+})
+
+export const updateRuns = (runs) => (state) => ({
+  runs: Number(runs) > 0 ? Number(runs) : ''
+})
+
+export const updateSetupCode = (before) => (state) => ({
+  before,
+})
+
 export const removeTestCase = (id) => (state) => ({
   tests: state.tests.filter((_, i) => i !== id),
 })
